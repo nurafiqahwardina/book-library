@@ -60,4 +60,23 @@ class BookController extends Controller
         return view('books.edit', compact('book', 'authors', 'categories', 'tags'));
     }
 
+     public function update(Request $request, Book $book)
+    {
+        $request->validate([
+            'title'          => 'required|string|max:255',
+            'author_id'      => 'required|exists:authors,id',
+            'category_id'    => 'required|exists:categories,id',
+            'description'    => 'nullable|string',
+            'published_year' => 'nullable|digits:4|integer',
+            'stock'          => 'required|integer|min:0',
+            'tags'           => 'nullable|array',
+        ]);
+
+        $book->update($request->except('tags'));
+        $book->tags()->sync($request->tags ?? []);
+
+        return redirect()->route('books.index')
+            ->with('success', 'Book updated successfully!');
+    }
+
 }

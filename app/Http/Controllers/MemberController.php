@@ -43,4 +43,18 @@ class MemberController extends Controller
         return view('members.edit', compact('member'));
     }
 
+    public function update(Request $request, Member $member)
+    {
+        $request->validate([
+            'name'  => 'required|string|max:255',
+            'email' => 'required|email|unique:members,email,' . $member->id,
+            'phone' => 'nullable|string|max:20',
+        ]);
+
+        $member->update($request->only('name', 'email', 'phone'));
+
+        return redirect()->route('members.index')
+            ->with('success', 'Member updated successfully!');
+    }
+
 }

@@ -57,4 +57,25 @@ class BorrowingController extends Controller
         return view('borrowings.edit', compact('borrowing', 'books', 'members'));
     }
 
+     public function update(Request $request, Borrowing $borrowing)
+    {
+        $request->validate([
+            'book_id'       => 'required|exists:books,id',
+            'member_id'     => 'required|exists:members,id',
+            'borrowed_date' => 'required|date',
+            'return_date'   => 'nullable|date|after:borrowed_date',
+            'status'        => 'required|in:borrowed,returned,overdue',
+        ]);
+
+        // If status changed to returned, increase stock back
+        if ($request->status == 'returned' && $borrowing->status != 'returned') {
+            $borrowing->book->increment('stock');
+        }
+
+        $borrowing->update($request->all());
+
+        return redirect()->route('borrowings.index')
+            ->with('success', 'Borrowing record updated successfully!');
+    }
+
 }
