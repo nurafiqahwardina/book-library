@@ -31,5 +31,14 @@ class AuthorController extends Controller
             ->with('success', 'Author added successfully!');
     }
 
+    public function show(Author $author)
+    {
+        $books = $author->books()->with('category')->get();
+        $author->loadCount('books');
+        $author =$author->paginate(10);
+        //$author->load('books.category');
+        return view('authors.show', compact('author', 'books'));
+    }   
+
 
 }
