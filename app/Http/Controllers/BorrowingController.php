@@ -18,6 +18,7 @@ class BorrowingController extends Controller
     {
         $books = Book::where('stock', '>', 0)->get();
         $members = Member::all();
+        // dd($books, $members);
         return view('borrowings.create', compact('books', 'members'));
     }
 
