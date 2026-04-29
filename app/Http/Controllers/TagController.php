@@ -36,4 +36,9 @@ class TagController extends Controller
         return view('tags.show', compact('tag'));
     }   
 
+    public function edit(Tag $tag)
+    {
+        return view('tags.edit', compact('tag'));
+    }
+
 }

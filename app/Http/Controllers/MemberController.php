@@ -38,4 +38,9 @@ class MemberController extends Controller
         return view('members.show', compact('member'));
     }   
 
+    public function edit(Member $member)
+    {
+        return view('members.edit', compact('member'));
+    }
+
 }
