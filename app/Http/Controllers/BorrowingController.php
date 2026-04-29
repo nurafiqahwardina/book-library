@@ -50,4 +50,11 @@ class BorrowingController extends Controller
         return view('borrowings.show', compact('borrowing'));
     }   
 
+    public function edit(Borrowing $borrowing)
+    {
+        $books = Book::all();
+        $members = Member::all();
+        return view('borrowings.edit', compact('borrowing', 'books', 'members'));
+    }
+
 }
