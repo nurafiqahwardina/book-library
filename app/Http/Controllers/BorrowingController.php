@@ -20,6 +20,7 @@ class BorrowingController extends Controller
         $books = Book::where('stock', '>', 0)->get();
         $members = Member::all();
         // dd($books, $members);
+        // dd($books);
         return view('borrowings.create', compact('books', 'members'));
     }
 
@@ -42,5 +43,11 @@ class BorrowingController extends Controller
         return redirect()->route('borrowings.index')
             ->with('success', 'Borrowing record added successfully!');
     }
+
+    public function show($id)
+    {
+        $borrowing = Borrowing::with(['book', 'member'])->findOrFail($id);
+        return view('borrowings.show', compact('borrowing'));
+    }   
 
 }

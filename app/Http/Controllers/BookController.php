@@ -46,4 +46,10 @@ class BookController extends Controller
             ->with('success', 'Book added successfully!');
     }
 
+    public function show($id)
+    {
+        $book = Book::with(['author', 'category', 'tags'])->findOrFail($id);
+        return view('books.show', compact('book'));
+    }   
+
 }
