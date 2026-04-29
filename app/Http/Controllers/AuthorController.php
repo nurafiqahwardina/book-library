@@ -37,6 +37,7 @@ class AuthorController extends Controller
         $author->loadCount('books');
         $author =$author->paginate(10);
         $author->load('books.category');
+        //$author->load('books.category');
         return view('authors.show', compact('author', 'books'));
     }   
 
