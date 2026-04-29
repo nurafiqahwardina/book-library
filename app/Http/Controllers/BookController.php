@@ -79,4 +79,13 @@ class BookController extends Controller
             ->with('success', 'Book updated successfully!');
     }
 
+    public function destroy(Book $book)
+    {
+        $book->tags()->detach();
+        $book->delete();
+
+        return redirect()->route('books.index')
+            ->with('success', 'Book deleted successfully!');
+    }
+
 }

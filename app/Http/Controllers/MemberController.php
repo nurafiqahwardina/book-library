@@ -57,4 +57,12 @@ class MemberController extends Controller
             ->with('success', 'Member updated successfully!');
     }
 
+    public function destroy(Member $member)
+    {
+        $member->delete();
+
+        return redirect()->route('members.index')
+            ->with('success', 'Member deleted successfully!');
+    }
+
 }
