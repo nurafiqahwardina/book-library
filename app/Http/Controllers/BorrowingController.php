@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Borrowing;
 use App\Models\Book;
+use App\Models\Borrowing;
 use App\Models\Member;
+use Illuminate\Http\Request;
 
 class BorrowingController extends Controller
 {
@@ -21,6 +22,26 @@ class BorrowingController extends Controller
         // dd($books, $members);
         // dd($books);
         return view('borrowings.create', compact('books', 'members'));
+    }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'book_id'       => 'required|exists:books,id',
+            'member_id'     => 'required|exists:members,id',
+            'borrowed_date' => 'required|date',
+            'return_date'   => 'nullable|date|after:borrowed_date',
+            'status'        => 'required|in:borrowed,returned,overdue',
+        ]);
+
+        Borrowing::create($request->all());
+
+        // Reduce stock by 1
+        $book = Book::find($request->book_id);
+        $book->decrement('stock');
+
+        return redirect()->route('borrowings.index')
+            ->with('success', 'Borrowing record added successfully!');
     }
 
 }
