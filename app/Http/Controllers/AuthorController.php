@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Author;
+use Illuminate\Http\Request;
 
 class AuthorController extends Controller
 {
@@ -15,6 +16,19 @@ class AuthorController extends Controller
     public function create()
     {
         return view('authors.create');
+    }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'bio'  => 'nullable|string',
+        ]);
+
+        Author::create($request->only('name', 'bio'));
+
+        return redirect()->route('authors.index')
+            ->with('success', 'Author added successfully!');
     }
 
 
