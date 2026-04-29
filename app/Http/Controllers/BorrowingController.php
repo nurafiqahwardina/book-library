@@ -78,4 +78,12 @@ class BorrowingController extends Controller
             ->with('success', 'Borrowing record updated successfully!');
     }
 
+     public function destroy(Borrowing $borrowing)
+    {
+        $borrowing->delete();
+
+        return redirect()->route('borrowings.index')
+            ->with('success', 'Borrowing record deleted successfully!');
+    }
+
 }

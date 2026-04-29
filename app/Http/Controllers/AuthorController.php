@@ -59,5 +59,13 @@ class AuthorController extends Controller
             ->with('success', 'Author updated successfully!');
     }
 
+    public function destroy(Author $author)
+    {
+        $author->delete();
+
+        return redirect()->route('authors.index')
+            ->with('success', 'Author deleted successfully!');
+    }
+
 
 }
