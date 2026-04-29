@@ -22,7 +22,7 @@ class MemberController extends Controller
     {
         $request->validate([
             'name'  => 'required|string|max:255',
-            'email' => 'required|email|unique:members,email',
+            'email' => 'required|string|email|max:255|unique:members,email',
             'phone' => 'nullable|string|max:20',
         ]);
 
@@ -31,5 +31,11 @@ class MemberController extends Controller
         return redirect()->route('members.index')
             ->with('success', 'Member added successfully!');
     }
+
+    public function show($id)
+    {
+        $member = Member::with('borrowings.book')->findOrFail($id);
+        return view('members.show', compact('member'));
+    }   
 
 }

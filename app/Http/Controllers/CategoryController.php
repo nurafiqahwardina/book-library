@@ -30,4 +30,10 @@ class CategoryController extends Controller
             ->with('success', 'Category added successfully!');
     }
 
+    public function show($id)
+    {
+        $category = Category::with('books')->findOrFail($id);
+        return view('categories.show', compact('category'));
+    }   
+
 }

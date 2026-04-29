@@ -44,4 +44,10 @@ class BorrowingController extends Controller
             ->with('success', 'Borrowing record added successfully!');
     }
 
+    public function show($id)
+    {
+        $borrowing = Borrowing::with(['book', 'member'])->findOrFail($id);
+        return view('borrowings.show', compact('borrowing'));
+    }   
+
 }

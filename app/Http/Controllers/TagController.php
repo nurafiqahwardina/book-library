@@ -30,4 +30,10 @@ class TagController extends Controller
             ->with('success', 'Tag added successfully!');
     }
 
+    public function show($id)
+    {
+        $tag = Tag::with('books')->findOrFail($id);
+        return view('tags.show', compact('tag'));
+    }   
+
 }
